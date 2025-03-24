@@ -4,6 +4,6 @@
     "outDir": "dist",
     "checkJs": true,
   },
-  "include": ["src/**/*", "eslint.config.ts", "tests/Tag.test.ts"],
+  "include": ["**/*"],
   "exclude": ["node_modules"]
 }
