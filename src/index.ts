@@ -1,13 +1,13 @@
-import Tag from "./tags/Tag.js"
-
+import Tag from './tags/Tag.js'
+import HexletCode from '../src/HexletCode/HexletCode.js'
+export default HexletCode
 const br = new Tag('br')
 
-const input = new Tag('input', {type: 'radio'})
+const input = new Tag('input', { type: 'radio' })
 
-const img = new Tag('img', {alt: 'someImg', class: 'someImg', atr: 'sdsdd'})
+const img = new Tag('img', { alt: 'someImg', class: 'someImg', atr: 'sdsdd' })
 
-const div = new Tag('div',{}, 'ghbdtn')
-  
+const div = new Tag('div', {}, 'ghbdtn')
 
 console.log(br.toString())
 
