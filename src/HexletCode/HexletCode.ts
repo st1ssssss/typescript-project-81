@@ -18,6 +18,7 @@ class FormBuilder {
     const value = this.template[templateKeyName]
 
     if (value !== undefined) {
+      const capitalizedKeyForLabel = templateKeyName[0].toUpperCase() + templateKeyName.substring(1)
       if (inputOpt !== undefined) {
         const filteredInputOpt = Object.fromEntries(Object.entries(inputOpt).filter((el) => {
           if (el[0] !== 'as') {
@@ -31,22 +32,30 @@ class FormBuilder {
           if (filteredInputOpt.rows === undefined) {
             filteredInputOpt.rows = 40
           }
+          const label = new Tag('label', { for: templateKeyName }, capitalizedKeyForLabel).toString()
           const formString = new Tag (inputOpt.as, { name: templateKeyName, ...filteredInputOpt }, value).toString()
-          this.fields.push(formString)
+          this.fields.push(label, formString)
         }
         else {
+          const label = new Tag('label', { for: templateKeyName }, capitalizedKeyForLabel).toString()
           const formString = new Tag ('input', { name: templateKeyName, type: 'text', value: value, ...filteredInputOpt }).toString()
-          this.fields.push(formString)
+          this.fields.push(label, formString)
         }
       }
       else {
+        const label = new Tag('label', { for: templateKeyName }, capitalizedKeyForLabel).toString()
         const formString = new Tag ('input', { name: templateKeyName, type: 'text', value: value }).toString()
-        this.fields.push(formString)
+        this.fields.push(label, formString)
       }
     }
     else {
       throw new Error(`Field '${templateKeyName}' does not exist in the template.`)
     }
+  }
+
+  submit(placeholder = 'Save') {
+    const formString = new Tag('input', { type: 'submit', value: placeholder }).toString()
+    this.fields.push(formString)
   }
 
   get getFields() {
