@@ -33,7 +33,7 @@ class FormBuilder {
             filteredInputOpt.rows = 40
           }
           const label = new Tag('label', { for: templateKeyName }, capitalizedKeyForLabel).toString()
-          const formString = new Tag (inputOpt.as, { name: templateKeyName, ...filteredInputOpt }, value).toString()
+          const formString = new Tag (inputOpt.as, { ...filteredInputOpt, name: templateKeyName }, value).toString()
           this.fields.push(label, formString)
         }
         else {
@@ -68,6 +68,6 @@ export default class HexletCode {
     const builder = new FormBuilder(template)
     callback(builder)
     const formStrings = builder.getFields
-    return new Tag('form', { action: methods.url ?? '#', method: methods.method ?? 'post' }, formStrings).toString()
+    return new Tag('form', { method: methods.method ?? 'post', action: methods.url ?? '#' }, formStrings).toString()
   }
 }
