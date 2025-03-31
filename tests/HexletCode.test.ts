@@ -1,5 +1,10 @@
 import { expect, test } from 'vitest'
+import path from 'path'
+import fs from 'fs'
 import HexletCode from '../src/HexletCode/HexletCode.js'
+
+const getFixturePath = (filename: string) => path.join(__dirname, '__fixtures__', filename)
+const readFile = (filename: string) => fs.readFileSync(getFixturePath(filename), 'utf-8')
 
 const template = { name: 'rob', job: 'hexlet', gender: 'm' }
 
@@ -15,26 +20,26 @@ test('form with textarea and empty input', () => {
   expect(HexletCode.formFor(template, { url: '/users' }, (f) => {
     f.input('name')
     f.input('job', { as: 'textarea' })
-  })).toBe('<form method="post" action="/users"><label for="name">Name</label><input name="name" type="text" value="rob"><label for="job">Job</label><textarea cols="20" rows="40" name="job">hexlet</textarea></form>')
+  })).toBe(readFile('TextareaWithEmptyInput.html'))
 })
 
 test('form with classified input and empty input', () => {
   expect(HexletCode.formFor(template, {}, (f) => {
     f.input('name', { class: 'user-input' })
     f.input('job')
-  })).toBe('<form method="post" action="#"><label for="name">Name</label><input name="name" type="text" value="rob" class="user-input"><label for="job">Job</label><input name="job" type="text" value="hexlet"></form>')
+  })).toBe(readFile('ForWithClassifiedAndEmptyInputs.html'))
 })
 
 test('empty textarea with defaults', () => {
   expect(HexletCode.formFor(template, {}, (f) => {
     f.input('job', { as: 'textarea' })
-  })).toBe('<form method="post" action="#"><label for="job">Job</label><textarea cols="20" rows="40" name="job">hexlet</textarea></form>')
+  })).toBe(readFile('EmptyTextareaWithDefaults.html'))
 })
 
 test('redefine textarea defaults', () => {
   expect(HexletCode.formFor(template, {}, (f) => {
     f.input('job', { as: 'textarea', rows: 50, cols: 50 })
-  })).toBe('<form method="post" action="#"><label for="job">Job</label><textarea rows="50" cols="50" name="job">hexlet</textarea></form>')
+  })).toBe(readFile('RedefineTextareaDefaults.html'))
 })
 
 test('Unexisted field', () => {
@@ -51,7 +56,7 @@ test('Empty submit button', () => {
     f.input('name')
     f.input('job')
     f.submit()
-  })).toBe('<form method="post" action="#"><label for="name">Name</label><input name="name" type="text" value="rob"><label for="job">Job</label><input name="job" type="text" value="hexlet"><input type="submit" value="Save"></form>')
+  })).toBe(readFile('EmptySubmitButton.html'))
 })
 
 test('Non-empty submit', () => {
@@ -59,5 +64,5 @@ test('Non-empty submit', () => {
     f.input('name')
     f.input('job')
     f.submit('Wow')
-  })).toBe('<form method="post" action="#"><label for="name">Name</label><input name="name" type="text" value="rob"><label for="job">Job</label><input name="job" type="text" value="hexlet"><input type="submit" value="Wow"></form>')
+  })).toBe(readFile('NonEmptySubmit.html'))
 })

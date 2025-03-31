@@ -1,4 +1,3 @@
-import { validateHeaderName } from 'http'
 import Tag from '../tags/Tag.js'
 
 type ITemplate = Record<string, string>
