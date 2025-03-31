@@ -3,11 +3,6 @@
   "compilerOptions": {
     "outDir": "dist",
     "checkJs": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"],
-      "@config": ["./src/config/index.ts"]
-    }
   },
   "include": ["**/*"],
   "exclude": ["node_modules"]

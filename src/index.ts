@@ -1,2 +1,2 @@
-import HexletCode from '@/HexletCode/HexletCode.js'
+import HexletCode from '../src/HexletCode/HexletCode.js'
 export default HexletCode
