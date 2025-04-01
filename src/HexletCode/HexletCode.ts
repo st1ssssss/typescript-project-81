@@ -1,4 +1,6 @@
-import Tag from '../tags/Tag.js'
+import Input from '../Input.js'
+import Tag from '../Tag.js'
+import Textarea from '../Textarea.js'
 
 type ITemplate = Record<string, string>
 
@@ -17,7 +19,6 @@ class FormBuilder {
     const value = this.template[templateKeyName]
 
     if (value !== undefined) {
-      const capitalizedKeyForLabel = templateKeyName[0].toUpperCase() + templateKeyName.substring(1)
       if (inputOpt !== undefined) {
         const filteredInputOpt = Object.fromEntries(Object.entries(inputOpt).filter((el) => {
           if (el[0] !== 'as') {
@@ -31,20 +32,17 @@ class FormBuilder {
           if (filteredInputOpt.rows === undefined) {
             filteredInputOpt.rows = 40
           }
-          const label = new Tag('label', { for: templateKeyName }, capitalizedKeyForLabel).toString()
-          const formString = new Tag (inputOpt.as, { ...filteredInputOpt, name: templateKeyName }, value).toString()
-          this.fields.push(label, formString)
+          const formString = new Textarea ({ ...filteredInputOpt, name: templateKeyName }, value, true).toString()
+          this.fields.push(formString)
         }
         else {
-          const label = new Tag('label', { for: templateKeyName }, capitalizedKeyForLabel).toString()
-          const formString = new Tag ('input', { name: templateKeyName, type: 'text', value: value, ...filteredInputOpt }).toString()
-          this.fields.push(label, formString)
+          const formString = new Input ({ name: templateKeyName, type: 'text', value: value, ...filteredInputOpt }, true).toString()
+          this.fields.push(formString)
         }
       }
       else {
-        const label = new Tag('label', { for: templateKeyName }, capitalizedKeyForLabel).toString()
-        const formString = new Tag ('input', { name: templateKeyName, type: 'text', value: value }).toString()
-        this.fields.push(label, formString)
+        const formString = new Input ({ name: templateKeyName, type: 'text', value: value }, true).toString()
+        this.fields.push(formString)
       }
     }
     else {
@@ -53,7 +51,7 @@ class FormBuilder {
   }
 
   submit(placeholder = 'Save') {
-    const formString = new Tag('input', { type: 'submit', value: placeholder }).toString()
+    const formString = new Input({ type: 'submit', value: placeholder }).toString()
     this.fields.push(formString)
   }
 

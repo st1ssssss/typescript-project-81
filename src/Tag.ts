@@ -1,4 +1,6 @@
-import { singleTags, SingleTagTypes } from '../types/tag-types/types.js'
+const singleTags = ['br', 'img', 'input'] as const
+
+type SingleTagTypes = (typeof singleTags)[number]
 
 export default class Tag {
   constructor(public name: string, public attrs: Record<string, string> = {}, public placeholder: string | number = '') {}
@@ -10,14 +12,13 @@ export default class Tag {
     const entries = Object.entries(this.attrs)
 
     const attrsString = entries
-      .map(([key, value]) => `${key}="${value}"`)
-      .join(' ')
+      .map(([key, value]) => ` ${key}="${value}"`).join('')
 
     if (this.isSingle(name)) {
-      return `<${name}${attrsString ? ` ${attrsString}` : ''}>`
+      return `<${name}${attrsString ? `${attrsString}` : ''}>`
     }
     else {
-      return `<${name}${attrsString ? ` ${attrsString}` : ''}>${this.placeholder}</${name}>`
+      return `<${name}${attrsString ? `${attrsString}` : ''}>${this.placeholder}</${name}>`
     }
   }
 }
