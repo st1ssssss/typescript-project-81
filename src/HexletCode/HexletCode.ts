@@ -11,7 +11,7 @@ interface InputOtions {
 }
 
 class FormBuilder {
-  constructor(private template: ITemplate) {}
+  constructor(private template: ITemplate, public options: { method: 'post' | 'get', action: string }) {}
 
   fields: string[] = []
 
@@ -26,12 +26,6 @@ class FormBuilder {
           }
         }))
         if (inputOpt.as === 'textarea') {
-          if (filteredInputOpt.cols === undefined) {
-            filteredInputOpt.cols = 20
-          }
-          if (filteredInputOpt.rows === undefined) {
-            filteredInputOpt.rows = 40
-          }
           const formString = new Textarea ({ ...filteredInputOpt, name: templateKeyName }, value, true).toString()
           this.fields.push(formString)
         }
@@ -56,15 +50,15 @@ class FormBuilder {
   }
 
   get getFields() {
-    return this.fields.join('')
+    return this.fields
   }
 }
 
 export default class HexletCode {
   public static formFor(template: ITemplate, methods: { url?: string, method?: Methods }, callback: (v: FormBuilder) => void) {
-    const builder = new FormBuilder(template)
+    const builder = new FormBuilder(template, { method: methods.method ?? 'post', action: methods.url ?? '#' })
     callback(builder)
-    const formStrings = builder.getFields
-    return new Tag('form', { method: methods.method ?? 'post', action: methods.url ?? '#' }, formStrings).toString()
+    const formStrings = builder.getFields.join('')
+    return new Tag('form', builder.options, formStrings).toString()
   }
 }

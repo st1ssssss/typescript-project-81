@@ -3,7 +3,7 @@ const singleTags = ['br', 'img', 'input'] as const
 type SingleTagTypes = (typeof singleTags)[number]
 
 export default class Tag {
-  constructor(public name: string, public attrs: Record<string, string> = {}, public placeholder: string | number = '') {}
+  constructor(public name: string, public attrs: Record<string, string | number> = {}, public placeholder: string | number = '') {}
 
   private isSingle = (x: string): x is SingleTagTypes => (singleTags as readonly string[]).includes(x)
 
@@ -15,10 +15,10 @@ export default class Tag {
       .map(([key, value]) => ` ${key}="${value}"`).join('')
 
     if (this.isSingle(name)) {
-      return `<${name}${attrsString ? `${attrsString}` : ''}>`
+      return `<${name}${attrsString}>`
     }
     else {
-      return `<${name}${attrsString ? `${attrsString}` : ''}>${this.placeholder}</${name}>`
+      return `<${name}${attrsString}>${this.placeholder}</${name}>`
     }
   }
 }

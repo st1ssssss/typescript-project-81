@@ -1,10 +1,8 @@
 import Tag from './Tag.js'
 
-export default class Input extends Tag {
+export default class Input {
   stringLine: string[] = []
-  constructor(public attrs: Record<string, string> = {}, public withLabel = false) {
-    super('input', attrs)
-  }
+  constructor(public attrs: Record<string, string> = {}, public withLabel = false) {}
 
   public toString(): string {
     if (this.withLabel) {
@@ -12,7 +10,7 @@ export default class Input extends Tag {
       const label = new Tag('label', { for: this.attrs.name }, capitalizedKeyForLabel).toString()
       this.stringLine.push(label)
     }
-    this.stringLine.push(super.toString())
+    this.stringLine.push(new Tag('input', this.attrs).toString())
     return this.stringLine.join('')
   }
 }
