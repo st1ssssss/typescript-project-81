@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest'
 import path from 'path'
 import fs from 'fs'
-import HexletCode from '../src/HexletCode/HexletCode.js'
+import HexletCode from '../src/index.js'
 
 const getFixturePath = (filename: string) => path.join(__dirname, '__fixtures__', filename)
 const readFile = (filename: string) => fs.readFileSync(getFixturePath(filename), 'utf-8')
